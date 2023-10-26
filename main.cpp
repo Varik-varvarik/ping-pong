@@ -24,19 +24,19 @@ private:
 
     Time         TimePerFrame;
     float            PlayerSpeed;
-    float            PlayerSpeed2;
+    float            PlayerRightSpeed;
 };
 
 Game::Game()
-        : mWindow(VideoMode(2000, 1000), "SFML Application")
+        : mWindow(VideoMode(1000, 500), "Ping Pong")
         , mPlayer()
         , mPlayerRight()
         , PlayerSpeed(400.f)
         , PlayerRightSpeed(400.f)
 {
     mPlayerRight.setSize(Vector2f(20, 100));
-    mPlayerRight.setPosition(1900.f, 100.f);
-    mPlayerRight.setFillColor(Color(255, 255, 255));
+    mPlayerRight.setPosition(900.f, 100.f);
+    mPlayerRight.setFillColor(Color(255, 0, 255));
     mPlayer.setSize(Vector2f(20, 100));
     mPlayer.setPosition(100.f, 100.f);
     mPlayer.setFillColor(Color(255, 255, 255));
@@ -88,21 +88,18 @@ void Game::processEvents()
 void Game::update(Time deltaTime)
 {
     Vector2f movement(0.f, 0.f);
+    Vector2f movement2(0.f, 0.f);
     if(mIsMovingUp)
         movement.y -= PlayerSpeed;
-    if(mIsMovingDown)
+    else if(mIsMovingDown)
         movement.y += PlayerSpeed;
-    if(mIsMovingUp2)
-        movement.y -= PlayerRightSpeed;
-    if(mIsMovingDown2)
-        movement.y += PlayerRightSpeed;
-//    if(mIsMovingLeft)
-//        movement.x -= PlayerSpeed;
-//    if(mIsMovingRight)
-//        movement.x += PlayerSpeed;
+    else if(mIsMovingUp2)
+        movement2.y -= PlayerRightSpeed;
+    else if(mIsMovingDown2)
+        movement2.y += PlayerRightSpeed;
 
     mPlayer.move(movement * deltaTime.asSeconds());
-    mPlayerRight.move(movement * deltaTime.asSeconds());
+    mPlayerRight.move(movement2 * deltaTime.asSeconds());
 }
 
 void Game::render()
@@ -124,10 +121,6 @@ void Game::handlePlayerInput(Keyboard::Key key, bool isPressed)
         mIsMovingUp2 = isPressed;
     else if(key == Keyboard::Down)
         mIsMovingDown2 = isPressed;
-//    else if(key == Keyboard::A)
-//        mIsMovingLeft = isPressed;
-//    else if(key == Keyboard::D)
-//        mIsMovingRight = isPressed;
 }
 
 int main()
