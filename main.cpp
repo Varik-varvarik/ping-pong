@@ -18,9 +18,13 @@ private:
     CircleShape mBall;
     bool             mIsMovingUp,
             mIsMovingDown;
+    bool             mIsMovingUp2,
+            mIsMovingDown2;
+
 
     Time         TimePerFrame;
     float            PlayerSpeed;
+    float            PlayerSpeed2;
 };
 
 Game::Game()
@@ -28,6 +32,7 @@ Game::Game()
         , mPlayer()
         , mPlayerRight()
         , PlayerSpeed(400.f)
+        , PlayerRightSpeed(400.f)
 {
     mPlayerRight.setSize(Vector2f(20, 100));
     mPlayerRight.setPosition(1900.f, 100.f);
@@ -87,6 +92,10 @@ void Game::update(Time deltaTime)
         movement.y -= PlayerSpeed;
     if(mIsMovingDown)
         movement.y += PlayerSpeed;
+    if(mIsMovingUp2)
+        movement.y -= PlayerRightSpeed;
+    if(mIsMovingDown2)
+        movement.y += PlayerRightSpeed;
 //    if(mIsMovingLeft)
 //        movement.x -= PlayerSpeed;
 //    if(mIsMovingRight)
@@ -107,10 +116,14 @@ void Game::render()
 
 void Game::handlePlayerInput(Keyboard::Key key, bool isPressed)
 {
-    if(key == Keyboard::Up)
+    if(key == Keyboard::W)
         mIsMovingUp = isPressed;
-    else if(key == Keyboard::Down)
+    else if(key == Keyboard::S)
         mIsMovingDown = isPressed;
+    else if(key == Keyboard::Up)
+        mIsMovingUp2 = isPressed;
+    else if(key == Keyboard::Down)
+        mIsMovingDown2 = isPressed;
 //    else if(key == Keyboard::A)
 //        mIsMovingLeft = isPressed;
 //    else if(key == Keyboard::D)
